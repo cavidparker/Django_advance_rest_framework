@@ -17,7 +17,7 @@ def firstAPI(request):
     }
     return Response(context)
 
-
+@api_view(['POST'])
 def registrationAPI(request):
     if request.method == "POST":
         username = request.data['username']
@@ -32,7 +32,7 @@ def registrationAPI(request):
         if User.objects.filter(email=email).exists():
             return Response({"error": "Email already exists"})
         if password1 != password2:
-            return Response({"error": "Passwords do not match"})
+            return Response({"error": "Passwords do not match"})   
 
         user = User()
         user.username = username
