@@ -21,6 +21,8 @@ from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from .views import MyTokenObtainPairView
 
+from rest_framework.authentication import TokenAuthentication
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/login-api/', obtain_auth_token),
