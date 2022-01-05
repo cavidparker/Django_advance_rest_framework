@@ -19,12 +19,15 @@ from django.conf.urls.static import static
 from django.conf import settings
 from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from .views import MyTokenObtainPairView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/login-api/', obtain_auth_token),
     
-    path('api/token/', TokenObtainPairView.as_view()),
+    # path('api/token/', TokenObtainPairView.as_view()),
+    path('api/token/', MyTokenObtainPairView.as_view()), # custom token
+
     path('api/token/refresh/', TokenRefreshView.as_view()),
 
     path('api/', include('rest_framework.urls')),
