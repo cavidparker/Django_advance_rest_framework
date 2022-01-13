@@ -70,18 +70,47 @@ from rest_framework.views import APIView
 #     def get(self,request,format=None):
 #             return Response({"success": "Contact successfully saved! from get"})
 
-from .serializers import ContactSerializer 
+
+##### Model serializer ######
+# from .serializers import ContactSerializer 
+# class ContactAPIView(APIView):
+#     permission_classes=[AllowAny,]
+#     def post(self, request, format=None):
+#         # data=request.data
+#         seralizer = ContactSerializer(data=request.data)
+#         if seralizer.is_valid():
+#             seralizer.save()
+#         return Response(seralizer.data)  # respone all the data 
+#         # return Response({"success": "Contact successfully added"})
+#     def get(self,request,format=None):
+#         queryset = Contact.objects.all()
+#         seralizer = ContactSerializer(queryset, many=True)
+#         return Response(seralizer.data)
+#         # return Response({"success": "Contact successfully saved! from get"})
+
+
+
+from .serializers import ContactSerializerone 
 class ContactAPIView(APIView):
     permission_classes=[AllowAny,]
     def post(self, request, format=None):
-        # data=request.data
-        seralizer = ContactSerializer(data=request.data)
+        seralizer = ContactSerializerone(data=request.data)
         if seralizer.is_valid():
             seralizer.save()
         return Response(seralizer.data)  # respone all the data 
         # return Response({"success": "Contact successfully added"})
-    def get(self,request,format=None):
-        queryset = Contact.objects.all()
-        seralizer = ContactSerializer(queryset, many=True)
+
+    def put(self, request, format=None):
+        contact = Contact.objects.get(id=1)
+        seralizer = ContactSerializerone(data=request.data, instance=contact)
+        if seralizer.is_valid():
+            obj = seralizer.save()
+        return Response(seralizer.data)  # respone all the data
+
+    def get(self,request,format=None): 
+        queryset = Contact.objects.get(id=1)
+        # queryset = Contact.objects.all()
+        seralizer = ContactSerializerone(queryset, many=False)
         return Response(seralizer.data)
-        return Response({"success": "Contact successfully saved! from get"})        
+        # return Response({"success": "Contact successfully saved! from get"})
+          
