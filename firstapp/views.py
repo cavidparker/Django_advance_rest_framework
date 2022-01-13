@@ -47,5 +47,41 @@ def registrationAPI(request):
         user.set_password(raw_password=password1)
         user.save()
 
-        return Response({"success": "User successfully registered"})                
+        return Response({"success": "User successfully registered"})
 
+
+from .models import Contact
+from rest_framework.views import APIView
+#                                 # @api_view(['POST'])
+# class ContactAPIView(APIView):   #def contactpost(request):
+#     permission_classes=[AllowAny,]
+#     def post(self, request):     #if request.method=="POST":    
+#         data = request.data
+#         name = data['name']
+#         email = data['email']
+#         phone = data['phone']
+#         subject = data['subject']
+#         details = data['details']
+
+#         contact = Contact()
+#         contact = Contact(name=name, email=email, phone=phone, subject=subject, details=details)
+#         contact.save()
+#         return Response({"success": "Contact successfully added"})
+#     def get(self,request,format=None):
+#             return Response({"success": "Contact successfully saved! from get"})
+
+from .serializers import ContactSerializer 
+class ContactAPIView(APIView):
+    permission_classes=[AllowAny,]
+    def post(self, request, format=None):
+        # data=request.data
+        seralizer = ContactSerializer(data=request.data)
+        if seralizer.is_valid():
+            seralizer.save()
+        return Response(seralizer.data)  # respone all the data 
+        # return Response({"success": "Contact successfully added"})
+    def get(self,request,format=None):
+        queryset = Contact.objects.all()
+        seralizer = ContactSerializer(queryset, many=True)
+        return Response(seralizer.data)
+        return Response({"success": "Contact successfully saved! from get"})        
